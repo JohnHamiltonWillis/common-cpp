@@ -53,7 +53,7 @@ class ExceptionPriority : public T_EXCEPTION
 public:
 	/******************************************************************************/
 	/**
-	 * @brief Default method constructor for ExceptionPriority.
+	 * @brief Method constructor for ExceptionPriority.
 	 *
 	 * @param[in] idExcepPriority The identifier for the exception priority.
 	 * @param[in] stMessage       The string for the exception message.
