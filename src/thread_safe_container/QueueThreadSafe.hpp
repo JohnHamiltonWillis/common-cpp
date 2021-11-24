@@ -145,7 +145,7 @@ public:
         m_qThreadUnsafe.pop();
     } 
 
-private:
+protected:
     std::queue<T, Container> m_qThreadUnsafe;
     std::mutex m_mutexQueueThreadUnsafe;
 
