@@ -1,3 +1,4 @@
+/* This file makes use of Doxygen syntax for generating documentation. */
 /******************************************************************************/
 /**
  *
@@ -85,16 +86,16 @@ std::string stPriorityFromidPriority(IDPriority idPriority)
 #ifdef __unix__
 /******************************************************************************/
 /**
- * Function for getting syslog representation of severity.
+ * Function for getting syslog identifier of priority.
  *
- * @param[in] idPriority The identifier of the severity.
+ * @param[in] idPriority The identifier of the priority.
  *
- * @return stPriority The string representation of severity.
+ * @return idPrioritySysLog The identifier of priority for syslog.
  *
  * @note Unsupported severity levels are given a default string.
  *
  ******************************************************************************/
-std::string idPrioritySyslogFromidPriority(IDPriority idPriority)
+int idPrioritySyslogFromidPriority(IDPriority idPriority)
 {
     if (MP_ID_PRIORITY_SYSLOG_ID_PRIORITY.find(idPriority) != MP_ID_PRIORITY_SYSLOG_ID_PRIORITY.end())
     {
@@ -102,7 +103,7 @@ std::string idPrioritySyslogFromidPriority(IDPriority idPriority)
     }
     else
     {
-        return std::string(LOG_DEBUG);
+        return LOG_DEBUG;
     }
 }
 #endif
@@ -145,7 +146,7 @@ void padStringBack(std::string& stString, const size_t cCharLast, const char chP
 void logMsg(const char* const szFilename, const int cLine, const IDPriority idPriority, const std::string stMessage)
 {
     /**- Get current time. */
-    const std::time_t timeNow = std::time(0);  
+    const std::time_t timeNow = std::time(0);
     std::ostringstream ostrmstDateTime;
     ostrmstDateTime << std::put_time(std::localtime(&timeNow), "%F | %T %Z");
 
@@ -164,12 +165,12 @@ void logMsg(const char* const szFilename, const int cLine, const IDPriority idPr
     padStringBack(stLocationCode, CB_ST_LOCATION_CODE_LAST);
 
     /**- Create message string. */
-    const std::string stLogMessage(ostrmstDateTime.str() + " | "  + stidThread + " | " + stidPriority + " | " + stLocationCode + " | " + stMessage);
+    const std::string stLogMessage(ostrmstDateTime.str() + " | " + stidThread + " | " + stidPriority + " | " + stLocationCode + " | " + stMessage);
 
 
 #ifdef __unix__
     /**- Log message. */
-    syslog(ID_FACILITY | idPrioritySyslogFromidPriority(idPriority), stMessage);
+    syslog(ID_FACILITY | idPrioritySyslogFromidPriority(idPriority), stMessage.c_str());
 #endif
 
     /**- Output message. */
