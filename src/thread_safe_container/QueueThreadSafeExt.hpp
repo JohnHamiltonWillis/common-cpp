@@ -1,3 +1,4 @@
+/* This file makes use of Doxygen syntax for generating documentation. */
 /******************************************************************************/
 /**
  *
@@ -22,8 +23,10 @@
 #ifndef QUEUETHREADSAFEEXT_HPP
 #define QUEUETHREADSAFEEXT_HPP
 
- /******************************** Include Files *******************************/
+/******************************** Include Files *******************************/
+#include <deque>
 #include <condition_variable>
+#include "QueueThreadSafe.hpp"
 
 /**************************** Constant Definitions ****************************/
 
@@ -46,16 +49,15 @@ public:
      ******************************************************************************/
     size_t sizeWait(size_t cElementReq) const
     {
-        std::unique_lock<std::mutex> lock(QueueThreadSafe::m_mutexQueueThreadUnsafe);
+        std::unique_lock<std::mutex> lock(QueueThreadSafe<T, Container>::m_mutexQueueThreadUnsafe);
 
         do
         {
-            m_condSizeWait.wait(m_mutexQueueThreadUnsafe, [] { return m_fPush; });
+            m_condSizeWait.wait(QueueThreadSafe<T, Container>::m_mutexQueueThreadUnsafe, [this] { return m_fPush; });
             m_fPush = false;
-        } 
-        while (QueueThreadSafe::m_qThreadUnsafe.size() < cElementReq);
+        } while (QueueThreadSafe<T, Container>::m_qThreadUnsafe.size() < cElementReq);
 
-        auto cElementLast = QueueThreadSafe::m_qThreadUnsafe.size();
+        auto cElementLast = QueueThreadSafe<T, Container>::m_qThreadUnsafe.size();
         lock.unlock();
         return cElementLast;
     }
@@ -71,10 +73,10 @@ public:
      ******************************************************************************/
     void push(const T& value)
     {
-        std::lock_guard<std::mutex> lock(QueueThreadSafe::m_mutexQueueThreadUnsafe);
+        std::lock_guard<std::mutex> lock(QueueThreadSafe<T, Container>::m_mutexQueueThreadUnsafe);
 
-        QueueThreadSafe::m_qThreadUnsafe.push(value);
-        
+        QueueThreadSafe<T, Container>::m_qThreadUnsafe.push(value);
+
         m_fPush = true;
         m_condSizeWait.notify_one();
     }
@@ -91,10 +93,10 @@ public:
      ******************************************************************************/
     T frontAndPop()
     {
-        std::lock_guard<std::mutex> lock(QueueThreadSafe::m_mutexQueueThreadUnsafe);
+        std::lock_guard<std::mutex> lock(QueueThreadSafe<T, Container>::m_mutexQueueThreadUnsafe);
 
-        auto elementFront = QueueThreadSafe::m_qThreadUnsafe.front();
-        QueueThreadSafe::m_qThreadUnsafe.pop();
+        auto elementFront = QueueThreadSafe<T, Container>::m_qThreadUnsafe.front();
+        QueueThreadSafe<T, Container>::m_qThreadUnsafe.pop();
 
         return elementFront;
     }

@@ -1,10 +1,11 @@
+/* This file makes use of Doxygen syntax for generating documentation. */
 /******************************************************************************/
 /**
  *
  * @file QueueThreadSafe.hpp
  * @brief Thread-safe wrapper of std::queue.
  *
- * This contains the template class definition for the thread-safe wrapper of 
+ * This contains the template class definition for the thread-safe wrapper of
  * std::queue container. See std::queue documentation for implemented
  * methods.
  *
@@ -21,8 +22,9 @@
 #ifndef QUEUETHREADSAFE_HPP
 #define QUEUETHREADSAFE_HPP
 
- /******************************** Include Files *******************************/
+/******************************** Include Files *******************************/
 #include <queue>
+#include <deque>
 #include <mutex>
 
 /**************************** Constant Definitions ****************************/
@@ -109,7 +111,7 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_mutexQueueThreadUnsafe);
 
-       return  m_qThreadUnsafe.front();
+        return  m_qThreadUnsafe.front();
     }
 
     T back()
@@ -143,11 +145,11 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_mutexQueueThreadUnsafe);
         m_qThreadUnsafe.pop();
-    } 
+    }
 
 protected:
     std::queue<T, Container> m_qThreadUnsafe;
-    std::mutex m_mutexQueueThreadUnsafe;
+    mutable std::mutex m_mutexQueueThreadUnsafe;
 
 };
 
