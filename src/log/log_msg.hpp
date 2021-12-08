@@ -1,3 +1,4 @@
+/* This file makes use of Doxygen syntax for generating documentation. */
 /******************************************************************************/
 /**
  *
