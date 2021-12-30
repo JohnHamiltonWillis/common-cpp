@@ -34,8 +34,8 @@
 
 /**************************** Template Definitions ****************************/
 
-template<class T, class Container = std::deque<T>>
-class QueueThreadSafeExt : public QueueThreadSafe<T, Container>
+template<class T, class T_CONTAINER = std::deque<T>>
+class QueueThreadSafeExt : public QueueThreadSafe<T, T_CONTAINER>
 {
 public:
     /******************************************************************************/
@@ -49,15 +49,15 @@ public:
      ******************************************************************************/
     size_t sizeWait(size_t cElementReq) const
     {
-        std::unique_lock<std::mutex> lock(QueueThreadSafe<T, Container>::m_mutexQueueThreadUnsafe);
+        std::unique_lock<std::mutex> lock(QueueThreadSafe<T, T_CONTAINER>::m_mutexQueueThreadUnsafe);
 
-        do
+        while (QueueThreadSafe<T, T_CONTAINER>::m_qThreadUnsafe.size() < cElementReq)
         {
-            m_condSizeWait.wait(QueueThreadSafe<T, Container>::m_mutexQueueThreadUnsafe, [this] { return m_fPush; });
+            m_condSizeWait.wait(QueueThreadSafe<T, T_CONTAINER>::m_mutexQueueThreadUnsafe, [this] { return m_fPush; });
             m_fPush = false;
-        } while (QueueThreadSafe<T, Container>::m_qThreadUnsafe.size() < cElementReq);
+        } 
 
-        auto cElementLast = QueueThreadSafe<T, Container>::m_qThreadUnsafe.size();
+        auto cElementLast = QueueThreadSafe<T, T_CONTAINER>::m_qThreadUnsafe.size();
         lock.unlock();
         return cElementLast;
     }
@@ -73,9 +73,9 @@ public:
      ******************************************************************************/
     void push(const T& value)
     {
-        std::lock_guard<std::mutex> lock(QueueThreadSafe<T, Container>::m_mutexQueueThreadUnsafe);
+        std::lock_guard<std::mutex> lock(QueueThreadSafe<T, T_CONTAINER>::m_mutexQueueThreadUnsafe);
 
-        QueueThreadSafe<T, Container>::m_qThreadUnsafe.push(value);
+        QueueThreadSafe<T, T_CONTAINER>::m_qThreadUnsafe.push(value);
 
         m_fPush = true;
         m_condSizeWait.notify_one();
@@ -93,10 +93,10 @@ public:
      ******************************************************************************/
     T frontAndPop()
     {
-        std::lock_guard<std::mutex> lock(QueueThreadSafe<T, Container>::m_mutexQueueThreadUnsafe);
+        std::lock_guard<std::mutex> lock(QueueThreadSafe<T, T_CONTAINER>::m_mutexQueueThreadUnsafe);
 
-        auto elementFront = QueueThreadSafe<T, Container>::m_qThreadUnsafe.front();
-        QueueThreadSafe<T, Container>::m_qThreadUnsafe.pop();
+        auto elementFront = QueueThreadSafe<T, T_CONTAINER>::m_qThreadUnsafe.front();
+        QueueThreadSafe<T, T_CONTAINER>::m_qThreadUnsafe.pop();
 
         return elementFront;
     }

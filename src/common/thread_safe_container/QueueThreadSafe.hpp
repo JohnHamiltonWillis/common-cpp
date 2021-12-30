@@ -33,7 +33,7 @@
 
 /**************************** Template Definitions ****************************/
 
-template<class T, class Container = std::deque<T>>
+template<class T, class T_CONTAINER = std::deque<T>>
 class QueueThreadSafe
 {
 public:
@@ -148,7 +148,7 @@ public:
     }
 
 protected:
-    std::queue<T, Container> m_qThreadUnsafe;
+    std::queue<T, T_CONTAINER> m_qThreadUnsafe;
     mutable std::mutex m_mutexQueueThreadUnsafe;
 
 };
