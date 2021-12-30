@@ -33,7 +33,7 @@
 /***************************** Function Prototypes ****************************/
 
 /*
- * Log functions defined in log.cpp.
+ * Log functions defined in log_msg.cpp.
  */
 void logMsg(const char* const szFilename, const int cLine, const IDPriority idPriority, const std::string stMessage);
 
