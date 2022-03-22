@@ -26,6 +26,7 @@
 /******************************** Include Files *******************************/
 #include <deque>
 #include <condition_variable>
+
 #include "QueueThreadSafe.hpp"
 
 /**************************** Constant Definitions ****************************/
@@ -53,8 +54,8 @@ public:
 
         while (QueueThreadSafe<T, T_CONTAINER>::m_qThreadUnsafe.size() < cElementReq)
         {
-            m_condSizeWait.wait(QueueThreadSafe<T, T_CONTAINER>::m_mutexQueueThreadUnsafe, [this] { return m_fPush; });
-            m_fPush = false;
+            cond_size_wait_.wait(QueueThreadSafe<T, T_CONTAINER>::m_mutexQueueThreadUnsafe, [this] { return f_push_; });
+            f_push_ = false;
         } 
 
         auto cElementLast = QueueThreadSafe<T, T_CONTAINER>::m_qThreadUnsafe.size();
@@ -77,8 +78,8 @@ public:
 
         QueueThreadSafe<T, T_CONTAINER>::m_qThreadUnsafe.push(value);
 
-        m_fPush = true;
-        m_condSizeWait.notify_one();
+        f_push_ = true;
+        cond_size_wait_.notify_one();
     }
 
     /******************************************************************************/
@@ -102,8 +103,8 @@ public:
     }
 
 private:
-    std::condition_variable m_condSizeWait;
-    bool m_fPush;
+    std::condition_variable cond_size_wait_;
+    bool f_push_;
 
 };
 

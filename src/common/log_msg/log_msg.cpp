@@ -34,22 +34,22 @@
 #endif
 
 /**************************** Constant Definitions ****************************/
-const std::map<const IDPriority, std::string> MP_ID_PRIORITY_ST_ID_PRIORITY{ {IDPriority::idTrace, "TRACE"}, {IDPriority::idDebug, "DEBUG"}, {IDPriority::idInfo, "INFO"}, {IDPriority::idNotice, "NOTICE"}, {IDPriority::idWarning, "WARNING"}, {IDPriority::idErr, "ERR"}, {IDPriority::idCrit, "CRIT"}, {IDPriority::idAlert, "ALERT"}, {IDPriority::idEmerg, "EMERG"} };
-constexpr const char* SZ_ID_PRIORITY_UNKNOWN = "UNKNOWN";
+const std::map<const IDPriority, const std::string> kMpIdPriorityStringPriority{ {IDPriority::kIdTrace, "TRACE"}, {IDPriority::kIdDebug, "DEBUG"}, {IDPriority::kIdInfo, "INFO"}, {IDPriority::kIdNotice, "NOTICE"}, {IDPriority::kIdWarning, "WARNING"}, {IDPriority::kIdErr, "ERR"}, {IDPriority::kIdCrit, "CRIT"}, {IDPriority::kIdAlert, "ALERT"}, {IDPriority::kIdEmerg, "EMERG"} };
+constexpr const char* kSzIdPriorityUnknown = "UNKNOWN";
 
 #ifdef __unix__
-constexpr int ID_FACILITY = LOG_USER;
+constexpr auto kIdFacility = LOG_USER;
 
-const std::map<const IDPriority, int> MP_ID_PRIORITY_SYSLOG_ID_PRIORITY{ {IDPriority::idTrace, LOG_DEBUG}, {IDPriority::idDebug, LOG_DEBUG}, {IDPriority::idInfo, LOG_INFO}, {IDPriority::idNotice, LOG_NOTICE}, {IDPriority::idWarning, LOG_WARNING}, {IDPriority::idErr, LOG_ERR}, {IDPriority::idCrit, LOG_CRIT}, {IDPriority::idAlert, LOG_ALERT}, {IDPriority::idEmerg, LOG_EMERG} };
+const std::map<const IDPriority, const auto> kMpIdPriorityIdPrioritySyslog{ {IDPriority::kIdTrace, LOG_DEBUG}, {IDPriority::kIdDebug, LOG_DEBUG}, {IDPriority::kIdInfo, LOG_INFO}, {IDPriority::kIdNotice, LOG_NOTICE}, {IDPriority::kIdWarning, LOG_WARNING}, {IDPriority::kIdErr, LOG_ERR}, {IDPriority::kIdCrit, LOG_CRIT}, {IDPriority::kIdAlert, LOG_ALERT}, {IDPriority::kIdEmerg, LOG_EMERG} };
 #endif
 
 
-/* Manually update with largest ST_ID_PRIORITY severity identifier string above. */
-constexpr int CB_ST_ID_PRIORITY_LAST = sizeof("WARNING");
+/* Manually update with largest kMpIdPriorityStringPriority priority identifier string above. */
+constexpr auto kCBStringIdPriorityLast = sizeof("WARNING");
 
 /* Strings may exceed these and shift message formatting. Change as needed. */
-constexpr int CB_ST_ID_THREAD_LAST = 15;
-constexpr int CB_ST_LOCATION_CODE_LAST = 15;
+constexpr auto kCBStringIdThreadLast = 15;
+constexpr auto kCBStringLocationCodeLast = 15;
 
 /*********************** Static Variable Initializations **********************/
 
@@ -62,24 +62,24 @@ constexpr int CB_ST_LOCATION_CODE_LAST = 15;
 
 /******************************************************************************/
 /**
- * Function for getting string representation of severity.
+ * Function for getting string representation of priority.
  *
- * @param[in] idPriority The identifier of the severity.
+ * @param[in] id_priority The identifier of the priority.
  *
- * @return stPriority The string representation of severity.
+ * @return string_priority The string representation of priority.
  *
- * @note Unsupported severity levels are given a default string.
+ * @note Unsupported priority levels are given a default string.
  *
  ******************************************************************************/
-std::string stPriorityFromidPriority(IDPriority idPriority)
+std::string StringPriorityFromidPriority(IDPriority id_priority)
 {
-    if (MP_ID_PRIORITY_ST_ID_PRIORITY.find(idPriority) != MP_ID_PRIORITY_ST_ID_PRIORITY.end())
+    if (kMpIdPriorityStringPriority.find(id_priority) != kMpIdPriorityStringPriority.end())
     {
-        return MP_ID_PRIORITY_ST_ID_PRIORITY.at(idPriority);
+        return kMpIdPriorityStringPriority.at(id_priority);
     }
     else
     {
-        return std::string(SZ_ID_PRIORITY_UNKNOWN);
+        return std::string(kSzIdPriorityUnknown);
     }
 }
 
@@ -88,18 +88,18 @@ std::string stPriorityFromidPriority(IDPriority idPriority)
 /**
  * Function for getting syslog identifier of priority.
  *
- * @param[in] idPriority The identifier of the priority.
+ * @param[in] id_priority The identifier of the priority.
  *
- * @return idPrioritySysLog The identifier of priority for syslog.
+ * @return id_priority_syslog The identifier of priority for syslog.
  *
- * @note Unsupported severity levels are given a default string.
+ * @note Unsupported priority levels are given a default string.
  *
  ******************************************************************************/
-int idPrioritySyslogFromidPriority(IDPriority idPriority)
+int IdPrioritySyslogFromidPriority(IDPriority id_priority)
 {
-    if (MP_ID_PRIORITY_SYSLOG_ID_PRIORITY.find(idPriority) != MP_ID_PRIORITY_SYSLOG_ID_PRIORITY.end())
+    if (kMpIdPriorityIdPrioritySyslog.find(id_priority) != kMpIdPriorityIdPrioritySyslog.end())
     {
-        return MP_ID_PRIORITY_SYSLOG_ID_PRIORITY.at(idPriority);
+        return kMpIdPriorityIdPrioritySyslog.at(id_priority);
     }
     else
     {
@@ -112,69 +112,69 @@ int idPrioritySyslogFromidPriority(IDPriority idPriority)
 /**
  * Function for padding the back of a string.
  *
- * @param[in] stString  The string to be padded.
- * @param[in] cCharLast The last count of characters for the resulting string.
- * @param[in] chPadding The character to pad the string with.
+ * @param[in] string     The string to be padded.
+ * @param[in] c_ch_last  The last count of characters for the resulting string.
+ * @param[in] ch_padding The character to pad the string with.
  *
  * @return None.
  *
  * @note
  *
  ******************************************************************************/
-void padStringBack(std::string& stString, const size_t cCharLast, const char chPadding = ' ')
+void PadStringBack(std::string& string, const size_t c_ch_last, const char ch_padding = ' ')
 {
-    if (cCharLast > stString.size())
+    if (c_ch_last > string.size())
     {
-        stString.insert(stString.size(), cCharLast - stString.size(), chPadding);
+        string.insert(string.size(), c_ch_last - string.size(), ch_padding);
     }
 }
 
 /******************************************************************************/
 /**
- * Function for logging with severity level and message.
+ * Function for logging with priority level and message.
  *
- * @param[in] szFilename The zero-terminated string of the code filename.
- * @param[in] cLine      The count of the line number for the code.
- * @param[in] idPriority The identifier of the severity.
- * @param[in] szFilename The zero-terminated string of the code filename.
+ * @param[in] sz_filename The zero-terminated string of the code filename.
+ * @param[in] c_line      The count of the line number for the code.
+ * @param[in] id_priority The identifier of the priority.
+ * @param[in] message     The message for logging.
  *
  * @return None.
  *
  * @note
  *
  ******************************************************************************/
-void logMsg(const char* const szFilename, const int cLine, const IDPriority idPriority, const std::string stMessage)
+void LogMsg(const char* const sz_filename, const int c_line, const IDPriority id_priority, const std::string message)
 {
     /**- Get current time. */
     const std::time_t timeNow = std::time(0);
-    std::ostringstream ostrmstDateTime;
-    ostrmstDateTime << std::put_time(std::localtime(&timeNow), "%F | %T %Z");
+    std::ostringstream ostrm_string_datetime;
+    ostrm_string_datetime << std::put_time(std::localtime(&timeNow), "%F | %T %Z");
 
     /**- Format thread identifier string. */
     std::ostringstream ostrmstidThread;
     ostrmstidThread << std::this_thread::get_id();
-    std::string stidThread(ostrmstidThread.str());
-    padStringBack(stidThread, CB_ST_ID_THREAD_LAST);
+    std::string string_id_thread(ostrmstidThread.str());
+    PadStringBack(string_id_thread, kCBStringIdThreadLast);
 
     /**- Format priority identifier string. */
-    std::string stidPriority(stPriorityFromidPriority(idPriority));
-    padStringBack(stidPriority, CB_ST_ID_PRIORITY_LAST);
+    std::string string_id_priority(StringPriorityFromidPriority(id_priority));
+    PadStringBack(string_id_priority, kCBStringIdPriorityLast);
 
     /**- Format code location string. */
-    std::string stLocationCode(szFilename + std::string(":") + std::to_string(cLine));
-    padStringBack(stLocationCode, CB_ST_LOCATION_CODE_LAST);
+    std::string string_location_code(sz_filename + std::string(":") + std::to_string(c_line));
+    PadStringBack(string_location_code, kCBStringLocationCodeLast);
 
     /**- Create message string. */
-    const std::string stLogMessage(ostrmstDateTime.str() + " | " + stidThread + " | " + stidPriority + " | " + stLocationCode + " | " + stMessage);
+    const std::string stLogMessage(ostrm_string_datetime.str() + " | " + string_id_thread + " | " + string_id_priority + " | " + string_location_code + " | " + message);
 
 
 #ifdef __unix__
     /**- Log message. */
-    syslog(ID_FACILITY | idPrioritySyslogFromidPriority(idPriority), stMessage.c_str());
+    syslog(kIdFacility | IdPrioritySyslogFromidPriority(idPriority), stMessage.c_str());
 #endif
 
     /**- Output message. */
-    if (idPriority >= IDPriority::idNotice)
+    if (id_priority >= IDPriority::kIdNotice)
     {
         std::cerr << stLogMessage << std::endl;
     }

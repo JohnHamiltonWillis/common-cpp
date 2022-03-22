@@ -35,20 +35,20 @@
 /*
  * Log functions defined in log_msg.cpp.
  */
-void logMsg(const char* const szFilename, const int cLine, const IDPriority idPriority, const std::string stMessage);
+void LogMsg(const char* const sz_filename, const int c_line, const IDPriority id_priority, const std::string message);
 
 /******************************* Macro Functions ******************************/
-#define LOG_MSG(idPriority, stMessage) logMsg(__FILE__, __LINE__, idPriority, stMessage)
+#define LOG_MSG(id_priority, message) LogMsg(__FILE__, __LINE__, id_priority, message)
 
-#define LOG_MSG_TRACE(stMessage)   LOG_MSG(IDPriority::idTrace, stMessage)
-#define LOG_MSG_DEBUG(stMessage)   LOG_MSG(IDPriority::idDebug, stMessage)
-#define LOG_MSG_INFO(stMessage)    LOG_MSG(IDPriority::idInfo, stMessage)
-#define LOG_MSG_NOTICE(stMessage)  LOG_MSG(IDPriority::idNotice, stMessage)
-#define LOG_MSG_WARNING(stMessage) LOG_MSG(IDPriority::idWarning, stMessage)
-#define LOG_MSG_ERR(stMessage)     LOG_MSG(IDPriority::idErr, stMessage)
-#define LOG_MSG_CRIT(stMessage)    LOG_MSG(IDPriority::idCrit, stMessage)
-#define LOG_MSG_ALERT(stMessage)   LOG_MSG(IDPriority::idAlert, stMessage)
-#define LOG_MSG_EMERG(stMessage)   LOG_MSG(IDPriority::idEmerg, stMessage)
+#define LOG_MSG_TRACE(message)   LOG_MSG(IDPriority::idTrace, message)
+#define LOG_MSG_DEBUG(message)   LOG_MSG(IDPriority::idDebug, message)
+#define LOG_MSG_INFO(message)    LOG_MSG(IDPriority::idInfo, message)
+#define LOG_MSG_NOTICE(message)  LOG_MSG(IDPriority::idNotice, message)
+#define LOG_MSG_WARNING(message) LOG_MSG(IDPriority::idWarning, message)
+#define LOG_MSG_ERR(message)     LOG_MSG(IDPriority::idErr, message)
+#define LOG_MSG_CRIT(message)    LOG_MSG(IDPriority::idCrit, message)
+#define LOG_MSG_ALERT(message)   LOG_MSG(IDPriority::idAlert, message)
+#define LOG_MSG_EMERG(message)   LOG_MSG(IDPriority::idEmerg, message)
 
 #endif  /* #ifndef LOG_MSG_HPP */
 /** @} */

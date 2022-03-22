@@ -50,51 +50,51 @@ public:
 
     /******************************************************************************/
     /**
-     * @brief Copy constructor for QueueThreadSafe.
+     * @brief Copy constructor.
      *
      * @return None.
      *
      * @note Disabled implicit copy constructor.
      *
      ******************************************************************************/
-    QueueThreadSafe(const QueueThreadSafe& qOriginal) = delete;
+    QueueThreadSafe(const QueueThreadSafe& other) = delete;
 
     /******************************************************************************/
     /**
-     * @brief Copy assignment operator for QueueThreadSafe.
+     * @brief Copy assignment operator.
      *
      * @return None.
      *
      * @note Disabled implicit copy assignment operator.
      *
      ******************************************************************************/
-    QueueThreadSafe& operator=(const QueueThreadSafe& qOriginal) = delete;
+    QueueThreadSafe& operator=(const QueueThreadSafe& other) = delete;
 
     /******************************************************************************/
     /**
-     * @brief Move constructor for QueueThreadSafe.
+     * @brief Move constructor.
      *
      * @return None.
      *
      * @note Disabled implicit move constructor.
      *
      ******************************************************************************/
-    QueueThreadSafe(QueueThreadSafe&& qOriginal) = delete;
+    QueueThreadSafe(QueueThreadSafe&& other) = delete;
 
     /******************************************************************************/
     /**
-     * @brief Move assignment operator for QueueThreadSafe.
+     * @brief Move assignment operator.
      *
      * @return None.
      *
      * @note Disabled implicit move assignment operator.
      *
      ******************************************************************************/
-    QueueThreadSafe& operator=(QueueThreadSafe&& qOriginal) = delete;
+    QueueThreadSafe& operator=(QueueThreadSafe&& other) = delete;
 
     /******************************************************************************/
     /**
-     * @brief Deconstructor for QueueThreadSafe.
+     * @brief Deconstructor.
      *
      * @return None.
      *
@@ -103,53 +103,53 @@ public:
      ******************************************************************************/
     ~QueueThreadSafe()
     {
-        std::lock_guard<std::mutex> lock(m_mutexQueueThreadUnsafe);
+        std::lock_guard<std::mutex> lock(mutex_queue_thread_unsafe_);
     }
 
 
     T front()
     {
-        std::lock_guard<std::mutex> lock(m_mutexQueueThreadUnsafe);
+        std::lock_guard<std::mutex> lock(mutex_queue_thread_unsafe_);
 
-        return  m_qThreadUnsafe.front();
+        return  q_thread_unsafe_.front();
     }
 
     T back()
     {
-        std::lock_guard<std::mutex> lock(m_mutexQueueThreadUnsafe);
+        std::lock_guard<std::mutex> lock(mutex_queue_thread_unsafe_);
 
-        return m_qThreadUnsafe.back();
+        return q_thread_unsafe_.back();
     }
 
     bool empty() const
     {
-        std::lock_guard<std::mutex> lock(m_mutexQueueThreadUnsafe);
+        std::lock_guard<std::mutex> lock(mutex_queue_thread_unsafe_);
 
-        return m_qThreadUnsafe.empty();
+        return q_thread_unsafe_.empty();
     }
 
     size_t size() const
     {
-        std::lock_guard<std::mutex> lock(m_mutexQueueThreadUnsafe);
+        std::lock_guard<std::mutex> lock(mutex_queue_thread_unsafe_);
 
-        return m_qThreadUnsafe.size();
+        return q_thread_unsafe_.size();
     }
 
     void push(const T& value)
     {
-        std::lock_guard<std::mutex> lock(m_mutexQueueThreadUnsafe);
-        m_qThreadUnsafe.push(value);
+        std::lock_guard<std::mutex> lock(mutex_queue_thread_unsafe_);
+        q_thread_unsafe_.push(value);
     }
 
     void pop()
     {
-        std::lock_guard<std::mutex> lock(m_mutexQueueThreadUnsafe);
-        m_qThreadUnsafe.pop();
+        std::lock_guard<std::mutex> lock(mutex_queue_thread_unsafe_);
+        q_thread_unsafe_.pop();
     }
 
 protected:
-    std::queue<T, T_CONTAINER> m_qThreadUnsafe;
-    mutable std::mutex m_mutexQueueThreadUnsafe;
+    std::queue<T, T_CONTAINER> q_thread_unsafe_;
+    mutable std::mutex mutex_queue_thread_unsafe_;
 
 };
 
