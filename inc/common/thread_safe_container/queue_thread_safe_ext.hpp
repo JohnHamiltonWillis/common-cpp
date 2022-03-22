@@ -27,7 +27,7 @@
 #include <deque>
 #include <condition_variable>
 
-#include "QueueThreadSafe.hpp"
+#include "common/thread_safe_container/queue_thread_safe.hpp"
 
 /**************************** Constant Definitions ****************************/
 

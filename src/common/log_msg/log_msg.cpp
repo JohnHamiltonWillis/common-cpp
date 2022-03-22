@@ -19,7 +19,7 @@
 
 
 /******************************** Include Files *******************************/
-#include "log_msg.hpp"
+#include "common/log_msg/log_msg.hpp"
 
 #include <ctime>
 #include <iomanip>

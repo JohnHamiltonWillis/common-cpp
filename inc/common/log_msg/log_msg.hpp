@@ -24,7 +24,7 @@
 /******************************** Include Files *******************************/
 #include <string>
 
-#include "../exception_priority/ExceptionPriority.hpp"
+#include "common/exception_priority/exception_priority.hpp"
 
 /**************************** Constant Definitions ****************************/
 
