@@ -1,7 +1,7 @@
 /* This file makes use of Doxygen syntax for generating documentation. */
 /******************************************************************************/
 /**
- * @file ExceptionPriority.hpp
+ * @file exception_priority.hpp
  * @brief Class definition for extending exceptions with a priority parameter.
  *
  * This contains a templated class definition for extending any exception that

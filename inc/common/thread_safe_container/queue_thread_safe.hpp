@@ -2,7 +2,7 @@
 /******************************************************************************/
 /**
  *
- * @file QueueThreadSafe.hpp
+ * @file queue_thread_safe.hpp
  * @brief Thread-safe wrapper of std::queue.
  *
  * This contains the template class definition for the thread-safe wrapper of
@@ -19,8 +19,8 @@
  *
  ******************************************************************************/
 
-#ifndef QUEUETHREADSAFE_HPP
-#define QUEUETHREADSAFE_HPP
+#ifndef QUEUE_THREAD_SAFE_HPP
+#define QUEUE_THREAD_SAFE_HPP
 
 /******************************** Include Files *******************************/
 #include <queue>
@@ -153,5 +153,5 @@ protected:
 
 };
 
-#endif /* #ifndef QUEUETHREADSAFE_HPP */
+#endif /* #ifndef QUEUE_THREAD_SAFE_HPP */
 /** @} */ /* @addtogroup */

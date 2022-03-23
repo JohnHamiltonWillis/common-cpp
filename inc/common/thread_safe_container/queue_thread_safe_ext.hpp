@@ -2,7 +2,7 @@
 /******************************************************************************/
 /**
  *
- * @file QueueThreadSafeExt.hpp
+ * @file queue_thread_safe_ext.hpp
  * @brief Extension of QueueThreadSafe.
  *
  * This contains the template class definition for an extension of the
@@ -20,8 +20,8 @@
  *
  ******************************************************************************/
 
-#ifndef QUEUETHREADSAFEEXT_HPP
-#define QUEUETHREADSAFEEXT_HPP
+#ifndef QUEUE_THREAD_SAFE_EXT_HPP
+#define QUEUE_THREAD_SAFE_EXT_HPP
 
 /******************************** Include Files *******************************/
 #include <deque>
@@ -108,5 +108,5 @@ private:
 
 };
 
-#endif /* #ifndef QUEUETHREADSAFEEXT_HPP */
+#endif /* #ifndef QUEUE_THREAD_SAFE_EXT_HPP */
 /** @} */ /* @addtogroup */
