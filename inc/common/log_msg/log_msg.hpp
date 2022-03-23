@@ -40,15 +40,15 @@ void LogMsg(const char* const sz_filename, const int c_line, const IDPriority id
 /******************************* Macro Functions ******************************/
 #define LOG_MSG(id_priority, message) LogMsg(__FILE__, __LINE__, id_priority, message)
 
-#define LOG_MSG_TRACE(message)   LOG_MSG(IDPriority::idTrace, message)
-#define LOG_MSG_DEBUG(message)   LOG_MSG(IDPriority::idDebug, message)
-#define LOG_MSG_INFO(message)    LOG_MSG(IDPriority::idInfo, message)
-#define LOG_MSG_NOTICE(message)  LOG_MSG(IDPriority::idNotice, message)
-#define LOG_MSG_WARNING(message) LOG_MSG(IDPriority::idWarning, message)
-#define LOG_MSG_ERR(message)     LOG_MSG(IDPriority::idErr, message)
-#define LOG_MSG_CRIT(message)    LOG_MSG(IDPriority::idCrit, message)
-#define LOG_MSG_ALERT(message)   LOG_MSG(IDPriority::idAlert, message)
-#define LOG_MSG_EMERG(message)   LOG_MSG(IDPriority::idEmerg, message)
+#define LOG_MSG_TRACE(message)   LOG_MSG(IDPriority::kIdTrace, message)
+#define LOG_MSG_DEBUG(message)   LOG_MSG(IDPriority::kIdDebug, message)
+#define LOG_MSG_INFO(message)    LOG_MSG(IDPriority::kIdInfo, message)
+#define LOG_MSG_NOTICE(message)  LOG_MSG(IDPriority::kIdNotice, message)
+#define LOG_MSG_WARNING(message) LOG_MSG(IDPriority::kIdWarning, message)
+#define LOG_MSG_ERR(message)     LOG_MSG(IDPriority::kIdErr, message)
+#define LOG_MSG_CRIT(message)    LOG_MSG(IDPriority::kIdCrit, message)
+#define LOG_MSG_ALERT(message)   LOG_MSG(IDPriority::kIdAlert, message)
+#define LOG_MSG_EMERG(message)   LOG_MSG(IDPriority::kIdEmerg, message)
 
 #endif  /* #ifndef LOG_MSG_HPP */
 /** @} */
