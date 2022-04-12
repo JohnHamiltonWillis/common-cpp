@@ -48,7 +48,7 @@ const size_t kCBBufferStdout = 256;
 /**
  * Function for executing files and reading execution output.
  *
- * @param[in] sz_exec_cmd        The zero-terminated string of the file execution line.
+ * @param[in] exec_cmd           The string of the file execution line.
  * @param[in] time_poll_interval The time between polls on the execution status.
  *
  * @return result_stdout The string of the output results.
