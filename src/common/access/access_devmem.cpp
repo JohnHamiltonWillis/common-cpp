@@ -61,7 +61,7 @@ void ReadDevMem(const uintptr_t addr_physical, uint32_t& val_read)
     const auto fd_devmem = open("/dev/mem", O_RDONLY);
     if (fd_devmem == -1)
     {
-        throw ExceptionPriority<std::runtime_error>(IDPriority::kkIdErr, static_cast<std::string>(strerror(errno)) + " Could not open /dev/mem!");
+        throw ExceptionPriority<std::runtime_error>(IDPriority::kIdErr, static_cast<std::string>(strerror(errno)) + " Could not open /dev/mem!");
     }
 
     /* Calculate page-aligned address and offset. */
